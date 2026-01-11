@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building the Modern Data Stack | Latent Ed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #030712;
+            --bg-card: #0F172A; 
+            --accent: #10b981; 
+            --secondary: #3b82f6; 
+            --text-main: #f9fafb;
+            --text-dim: #9ca3af;
+            --border: #1f2937;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(3, 7, 18, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-dim); text-decoration: none; font-size: 0.9rem;
+            margin-left: 2rem; transition: 0.3s; font-weight: 600;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        header {
+            min-height: 45vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 4rem 2rem;
+            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+        }
+
+        .intensive-badge {
+            color: var(--accent);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; color: white; margin-bottom: 1rem; letter-spacing: -1px; }
+        .accent-text { color: var(--accent); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+
+        .phase-section { margin-bottom: 6rem; }
+        
+        .phase-header { 
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .phase-header h2 { font-size: 2.2rem; color: white; font-weight: 700; margin-bottom: 0.5rem; }
+        .phase-header p { color: var(--text-dim); font-style: italic; }
+
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .week-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .week-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+
+        .week-label { color: var(--accent); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+        .week-card h3 { font-size: 1.3rem; color: white; margin-bottom: 1.5rem; line-height: 1.3; }
+
+        .card-content h4 { color: var(--secondary); font-size: 0.8rem; text-transform: uppercase; margin: 1rem 0 0.5rem 0; }
+        .card-content ul { list-style: none; padding-left: 0; }
+        .card-content li { 
+            font-size: 0.95rem; 
+            color: var(--text-dim); 
+            margin-bottom: 0.4rem; 
+            display: flex;
+            gap: 8px;
+        }
+        .card-content li::before { content: "→"; color: var(--accent); font-weight: bold; }
+
+        .milestone-box {
+            grid-column: 1 / -1;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px dashed var(--accent);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .milestone-box strong { color: var(--accent); text-transform: uppercase; font-size: 0.9rem; }
+
+        /* Bottom Sections */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .glass-panel {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .glass-panel h3 { color: white; margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .vibe-list { list-style: none; }
+        .vibe-list li { margin-bottom: 1.2rem; color: var(--text-dim); }
+        .vibe-list strong { color: white; }
+
+        .toolkit-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tech-pill {
+            background: #1e293b;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .enrolment-card {
+            margin-top: 4rem;
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            padding: 3.5rem;
+        }
+
+        .enrolment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+
+        .price-hero { text-align: left; }
+        .price-hero p { color: var(--accent); font-weight: 800; text-transform: uppercase; font-size: 0.8rem; }
+        .price-hero h2 { font-size: 4rem; color: white; margin: 0.5rem 0; }
+
+        .schedule-list { list-style: none; }
+        .schedule-list li { margin-bottom: 1rem; font-size: 1.1rem; }
+        .schedule-list strong { color: white; }
+
+        footer { text-align: center; padding: 5rem 2rem; border-top: 1px solid var(--border); }
+        .btn-apply { background: var(--accent); color: var(--bg-deep); padding: 1.2rem 3rem; border-radius: 12px; text-decoration: none; font-weight: 800; display: inline-block; transition: 0.3s; }
+
+        @media (max-width: 850px) {
+            .info-grid, .enrolment-grid { grid-template-columns: 1fr; gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div style="font-weight: 800; font-size: 1.2rem; color: white;">LATENT <span class="accent-text">ED</span></div>
+        <div class="nav-links">
+            <a href="#curriculum">Curriculum</a>
+            <a href="#enrolment">Enrolment</a>
+            <a href="#">Apply Now</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="intensive-badge">12-Week Intensive Programme</div>
+        <h1>Building the Modern <span class="accent-text">Data Stack</span></h1>
+        <p style="max-width: 800px; color: var(--text-dim); font-size: 1.2rem; font-weight: 400;">
+            The backbone of the $300B data economy. Graduate with a production-ready portfolio.
+        </p>
+    </header>
+
+    <div class="container" id="curriculum">
+        
+        <section class="phase-section">
+            <div class="phase-header">
+                <h2>Phase 1: The Foundations (Weeks 1-4)</h2>
+                <p>Establishing the core skills of the data engineering lifecycle.</p>
+            </div>
+            <div class="curriculum-grid">
+                <div class="week-card">
+                    <span class="week-label">Week 01</span>
+                    <h3>Introduction to the Data Engineering Lifecycle</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>Role of a Data Engineer vs. Data Scientist</li>
+                            <li>Structured vs. Unstructured data</li>
+                            <li>The ETL/ELT paradigm</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Set up development environment (Docker, VS Code, Git)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="week-card">
+                    <span class="week-label">Week 02</span>
+                    <h3>Advanced SQL for Data Engineers</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>CTEs, Window Functions, and Query Optimization</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Designing a relational schema for a retail dataset</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="week-card">
+                    <span class="week-label">Week 03</span>
+                    <h3>Python for Data Automation</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>Virtual environments; Pandas for transformation</li>
+                            <li>Interacting with APIs</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Build a script to extract live weather or finance data from an API</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="week-card">
+                    <span class="week-label">Week 04</span>
+                    <h3>Data Modeling & Architecture</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>Star vs. Snowflake schemas</li>
+                            <li>Normalization vs. Denormalization</li>
+                            <li>Medallion Architecture (Bronze/Silver/Gold)</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Model a "Star Schema" for a sample Airbnb dataset</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="milestone-box">
+                    <span>🏆</span> <div><strong>Milestone Build:</strong> Your first Relational Schema.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="phase-section">
+            <div class="phase-header">
+                <h2>Phase 2: Building the Infrastructure (Weeks 5-8)</h2>
+                <p>Moving data into the cloud and orchestrating workflows.</p>
+            </div>
+            <div class="curriculum-grid">
+                <div class="week-card">
+                    <span class="week-label">Week 05</span>
+                    <h3>Cloud Storage & Data Lakes</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>Intro to AWS S3 / Google Cloud Storage</li>
+                            <li>Infrastructure as Code (Terraform)</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Use Terraform to provision a cloud storage bucket and upload raw data</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="week-card">
+                    <span class="week-label">Week 06</span>
+                    <h3>Modern Data Warehousing</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>BigQuery/Snowflake internals</li>
+                            <li>Partitioning and Clustering</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Load data from a Data Lake into a Warehouse and optimize query performance</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="week-card">
+                    <span class="week-label">Week 07</span>
+                    <h3>Workflow Orchestration</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>Introduction to DAGs (Directed Acyclic Graphs)</li>
+                            <li>Airflow vs. Dagster vs. Mage</li>
+                            <li>Orchestration: Apache Airflow DAGs</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Create an Airflow DAG to automate the Week 3 API script</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="week-card">
+                    <span class="week-label">Week 08</span>
+                    <h3>Analytics Engineering with dbt</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>Transforming data inside the warehouse</li>
+                            <li>The dbt Revolution: SQL Transformations</li>
+                            <li>Data Quality & Metric Stores</li>
+                            <li>Version control for SQL</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Use dbt to build a production-ready view of your Star Schema</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="milestone-box">
+                    <span>🚀</span> <div><strong>Milestone Build:</strong> An automated ETL pipeline in the Cloud.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="phase-section">
+            <div class="phase-header">
+                <h2>Phase 3: Scaling & Production (Weeks 9-12)</h2>
+                <p>Advanced processing and professional deployment.</p>
+            </div>
+            <div class="curriculum-grid">
+                <div class="week-card">
+                    <span class="week-label">Week 09</span>
+                    <h3>Batch Processing at Scale (Spark)</h3>
+                    <div class="card-content">
+                        <h4>Topics</h4>
+                        <ul>
+                            <li>Distributed computing; PySpark</li>
+                            <li>Handling "Big Data"</li>
+                        </ul>
+                        <h4>Activity</h4>
+                        <ul>
+                            <li>Process a multi-GB dataset using a Spark cluster</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="week-card">
+                    <span class="week-label">Weeks 10-12</span>
+                    <h3>Capstone & Professional Deployment</h3>
+                    <div class="card-content">
+                        <ul>
+                            <li>Real-time data integration</li>
+                            <li>Production-ready Capstone project completion</li>
+                            <li>Portfolio presentation and review</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-grid">
+            <div class="glass-panel">
+                <h3>The Classroom Vibe</h3>
+                <ul class="vibe-list">
+                    <li><strong>No Boring Lectures:</strong> 40% Theory, 60% "Hands-on-Keyboard"</li>
+                    <li><strong>Industry Scenarios:</strong> You are the Lead Engineer; I am your Stakeholder</li>
+                    <li><strong>Office Hours:</strong> Debugging marathons & architecture reviews</li>
+                </ul>
+            </div>
+            <div class="glass-panel">
+                <h3>The Toolkit</h3>
+                <div class="toolkit-wrap">
+                    <span class="tech-pill">Python</span><span class="tech-pill">SQL</span>
+                    <span class="tech-pill">AWS</span><span class="tech-pill">Docker</span>
+                    <span class="tech-pill">Airflow</span><span class="tech-pill">Spark</span>
+                    <span class="tech-pill">dbt</span><span class="tech-pill">Snowflake</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="enrolment-card" id="enrolment">
+            <p style="color: var(--secondary); font-weight: 800; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 1rem; text-align: center;">Enrolment Details</p>
+            <h2 style="text-align: center; color: white; font-size: 2.5rem; margin-bottom: 1rem;">Course Fee & Schedule</h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 3rem;">
+                Frequency: 2x a week (Theory & Demo — 3hrs each) | Duration: 3 Months Intensive
+            </p>
+            
+            <div class="enrolment-grid">
+                <div class="price-hero">
+                    <p>Total Course Fee</p>
+                    <h2>£1200</h2>
+                </div>
+                <div>
+                    <ul class="schedule-list">
+                        <li><strong>Deposit:</strong> £240 (20%) — 2 weeks before start</li>
+                        <li><strong>2nd Installment:</strong> £600 (50%) — End of Phase 1</li>
+                        <li><strong>3rd Installment:</strong> £360 (30%) — End of Phase 2</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <a href="#" class="btn-apply">SECURE YOUR SEAT</a>
+        <p style="margin-top: 3rem; font-size: 0.8rem; color: #444;">Latent Ed | 12-Week Intensive Programme</p>
+    </footer>
+
+</body>
+</html>
